@@ -2,236 +2,194 @@
 import { useState } from 'react';
 import { Navigation } from '@/components/navigation';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Camera, Upload, Type, Download, Share, AlertTriangle, CheckCircle, AlertCircle } from 'lucide-react';
+import { Camera, Upload, Image, Sparkles, X } from 'lucide-react';
 
 const Analyzer = () => {
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisComplete, setAnalysisComplete] = useState(false);
+  const [selectedTab, setSelectedTab] = useState('scan');
   const [ingredients, setIngredients] = useState('');
-  const [overallScore, setOverallScore] = useState(0);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
-  const mockIngredients = [
-    { name: 'Water (Aqua)', safety: 'safe', description: 'Universal solvent, completely safe' },
-    { name: 'Sodium Lauryl Sulfate', safety: 'caution', description: 'Can cause skin irritation in sensitive individuals' },
-    { name: 'Glycerin', safety: 'safe', description: 'Natural humectant, safe for all skin types' },
-    { name: 'Parabens (Methylparaben)', safety: 'moderate', description: 'Preservative with potential endocrine effects' },
-    { name: 'Fragrance (Parfum)', safety: 'caution', description: 'May contain allergens, not fully disclosed' },
-  ];
-
-  const handleAnalyze = () => {
-    setIsAnalyzing(true);
-    setTimeout(() => {
-      setIsAnalyzing(false);
-      setAnalysisComplete(true);
-      setOverallScore(75);
-    }, 3000);
-  };
-
-  const getSafetyColor = (safety: string) => {
-    switch (safety) {
-      case 'safe': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
-      case 'moderate': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'caution': return 'text-red-600 bg-red-50 border-red-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUploadedImage(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const getSafetyIcon = (safety: string) => {
-    switch (safety) {
-      case 'safe': return <CheckCircle className="w-4 h-4" />;
-      case 'moderate': return <AlertCircle className="w-4 h-4" />;
-      case 'caution': return <AlertTriangle className="w-4 h-4" />;
-      default: return <AlertCircle className="w-4 h-4" />;
-    }
+  const removeImage = () => {
+    setUploadedImage(null);
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800">
       <Navigation />
       <div className="pt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-            Ingredient <span className="gradient-text">Analyzer</span>
-          </h1>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Panel 1: Input Methods */}
-            <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
-              <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">Input Method</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="scan" className="w-full">
-                  <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="scan" className="flex items-center gap-2">
-                      <Camera className="w-4 h-4" />
-                      Scan
-                    </TabsTrigger>
-                    <TabsTrigger value="upload" className="flex items-center gap-2">
-                      <Upload className="w-4 h-4" />
-                      Upload
-                    </TabsTrigger>
-                    <TabsTrigger value="type" className="flex items-center gap-2">
-                      <Type className="w-4 h-4" />
-                      Type
-                    </TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="scan" className="mt-6">
-                    <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600">
-                      <div className="text-center">
-                        <Camera className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                        <p className="text-gray-600 dark:text-gray-400">Camera Preview</p>
-                        <Button className="mt-4 bg-emerald-600 hover:bg-emerald-700">Start Scanning</Button>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="upload" className="mt-6">
-                    <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600">
-                      <div className="text-center">
-                        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                        <p className="text-gray-600 dark:text-gray-400">Drag & Drop or Click to Upload</p>
-                        <Button className="mt-4 bg-emerald-600 hover:bg-emerald-700">Choose File</Button>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="type" className="mt-6">
-                    <Textarea
-                      placeholder="Enter ingredients separated by commas..."
-                      value={ingredients}
-                      onChange={(e) => setIngredients(e.target.value)}
-                      className="min-h-[200px]"
-                    />
-                    <Button 
-                      onClick={handleAnalyze}
-                      className="w-full mt-4 bg-emerald-600 hover:bg-emerald-700"
-                      disabled={!ingredients.trim() || isAnalyzing}
-                    >
-                      {isAnalyzing ? 'Analyzing...' : 'Analyze Ingredients'}
-                    </Button>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center mr-3">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold text-white">Ingredient Safety Analyzer</h1>
+            </div>
+            <p className="text-purple-100 text-lg">
+              Discover what's really in your products - scan, upload, or type ingredients to get detailed safety insights
+            </p>
+          </div>
 
-            {/* Panel 2: Processing & Results */}
-            <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
-              <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">Analysis Results</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isAnalyzing && (
-                  <div className="space-y-4">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                        <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      </div>
-                      <p className="text-gray-600 dark:text-gray-400">Analyzing ingredients...</p>
-                    </div>
-                    <Progress value={33} className="w-full" />
+          {/* Main Container */}
+          <div className="bg-white dark:bg-gray-100 rounded-3xl p-8 shadow-2xl">
+            {/* Tab Navigation */}
+            <div className="flex flex-col sm:flex-row gap-2 mb-8">
+              <Button
+                onClick={() => setSelectedTab('scan')}
+                className={`flex-1 py-4 px-6 rounded-xl font-medium transition-all duration-300 ${
+                  selectedTab === 'scan'
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                <Camera className="w-5 h-5 mr-2" />
+                📷 Scan/Camera
+              </Button>
+              <Button
+                onClick={() => setSelectedTab('upload')}
+                className={`flex-1 py-4 px-6 rounded-xl font-medium transition-all duration-300 ${
+                  selectedTab === 'upload'
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                <Upload className="w-5 h-5 mr-2" />
+                📁 Upload Image
+              </Button>
+              <Button
+                onClick={() => setSelectedTab('type')}
+                className={`flex-1 py-4 px-6 rounded-xl font-medium transition-all duration-300 ${
+                  selectedTab === 'type'
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                <Sparkles className="w-5 h-5 mr-2" />
+                ✏️ Type Ingredients
+              </Button>
+            </div>
+
+            {/* Tab Content */}
+            <div className="mb-8">
+              {/* Scan/Camera Tab */}
+              {selectedTab === 'scan' && (
+                <div className="text-center py-12">
+                  <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Camera className="w-12 h-12 text-gray-500" />
                   </div>
-                )}
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Scan Ingredient Label</h3>
+                  <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                    Use your camera to scan product labels directly
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-medium">
+                      <Camera className="w-5 h-5 mr-2" />
+                      📷 Open Camera
+                    </Button>
+                    <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-medium">
+                      <Image className="w-5 h-5 mr-2" />
+                      🖼️ Choose from Gallery
+                    </Button>
+                  </div>
+                </div>
+              )}
 
-                {analysisComplete && (
-                  <div className="space-y-4">
-                    {mockIngredients.map((ingredient, index) => (
-                      <div key={index} className={`p-4 rounded-lg border ${getSafetyColor(ingredient.safety)}`}>
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-medium">{ingredient.name}</span>
-                          <div className="flex items-center gap-1">
-                            {getSafetyIcon(ingredient.safety)}
-                            <Badge variant="outline" className={getSafetyColor(ingredient.safety)}>
-                              {ingredient.safety}
-                            </Badge>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{ingredient.description}</p>
-                      </div>
+              {/* Upload Image Tab */}
+              {selectedTab === 'upload' && (
+                <div className="py-8">
+                  {!uploadedImage ? (
+                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-purple-400 transition-colors duration-300">
+                      <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                        Drag & Drop or Click to Upload
+                      </h3>
+                      <p className="text-gray-500 mb-6">
+                        Support for JPG, PNG, and other image formats
+                      </p>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="image-upload"
+                      />
+                      <label htmlFor="image-upload">
+                        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-full cursor-pointer">
+                          Choose File
+                        </Button>
+                      </label>
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      <img
+                        src={uploadedImage}
+                        alt="Uploaded ingredient label"
+                        className="w-full max-w-md mx-auto rounded-xl shadow-lg"
+                      />
+                      <Button
+                        onClick={removeImage}
+                        className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full"
+                        size="sm"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Type Ingredients Tab */}
+              {selectedTab === 'type' && (
+                <div className="py-4">
+                  <Textarea
+                    placeholder="Enter ingredients separated by commas... (e.g., Water, Sodium Lauryl Sulfate, Glycerin, Parabens)"
+                    value={ingredients}
+                    onChange={(e) => setIngredients(e.target.value)}
+                    className="min-h-[200px] text-lg border-2 border-gray-200 focus:border-purple-400 rounded-xl p-4"
+                  />
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {['Water', 'Glycerin', 'Sodium Lauryl Sulfate', 'Parabens', 'Fragrance'].map((ingredient) => (
+                      <Button
+                        key={ingredient}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const newIngredients = ingredients ? `${ingredients}, ${ingredient}` : ingredient;
+                          setIngredients(newIngredients);
+                        }}
+                        className="border-gray-300 hover:border-purple-400 hover:text-purple-600"
+                      >
+                        + {ingredient}
+                      </Button>
                     ))}
                   </div>
-                )}
+                </div>
+              )}
+            </div>
 
-                {!isAnalyzing && !analysisComplete && (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Type className="w-8 h-8 text-gray-400" />
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-400">Enter ingredients to start analysis</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Panel 3: Insights & Actions */}
-            <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
-              <CardHeader>
-                <CardTitle className="text-gray-900 dark:text-white">Insights & Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {analysisComplete && (
-                  <div className="space-y-6">
-                    <div className="text-center">
-                      <div className="relative w-24 h-24 mx-auto mb-4">
-                        <div className="absolute inset-0 bg-emerald-100 dark:bg-emerald-900 rounded-full"></div>
-                        <div className="absolute inset-2 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center">
-                          <span className="text-2xl font-bold text-emerald-600">{overallScore}</span>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Safety Score</h3>
-                      <p className="text-gray-600 dark:text-gray-400">Generally Safe with Minor Concerns</p>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
-                        <h4 className="font-medium text-yellow-800 dark:text-yellow-200">Recommendations</h4>
-                        <ul className="text-sm text-yellow-700 dark:text-yellow-300 mt-2 space-y-1">
-                          <li>• Consider sulfate-free alternatives</li>
-                          <li>• Patch test before full use</li>
-                          <li>• Avoid if you have sensitive skin</li>
-                        </ul>
-                      </div>
-
-                      <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-                        <h4 className="font-medium text-emerald-800 dark:text-emerald-200">Alternative Products</h4>
-                        <ul className="text-sm text-emerald-700 dark:text-emerald-300 mt-2 space-y-1">
-                          <li>• CeraVe Gentle Cleanser</li>
-                          <li>• Vanicream Gentle Facial Cleanser</li>
-                          <li>• Neutrogena Ultra Gentle</li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Button variant="outline" className="flex-1">
-                        <Download className="w-4 h-4 mr-2" />
-                        Export
-                      </Button>
-                      <Button variant="outline" className="flex-1">
-                        <Share className="w-4 h-4 mr-2" />
-                        Share
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                {!analysisComplete && (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <AlertCircle className="w-8 h-8 text-gray-400" />
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-400">Analysis results will appear here</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            {/* Analyze Button */}
+            <div className="text-center">
+              <Button
+                className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-12 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group"
+                disabled={!ingredients.trim() && !uploadedImage && selectedTab !== 'scan'}
+              >
+                <Sparkles className="w-6 h-6 mr-2 group-hover:rotate-12 transition-transform duration-300" />
+                🔬 Analyze Ingredients
+              </Button>
+            </div>
           </div>
         </div>
       </div>
