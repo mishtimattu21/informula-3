@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Navigation } from '@/components/navigation';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Camera, Upload, Image, Sparkles, X } from 'lucide-react';
+import { Camera, Upload, Sparkles, X } from 'lucide-react';
 
 const Analyzer = () => {
   const [selectedTab, setSelectedTab] = useState('scan');
@@ -26,59 +26,68 @@ const Analyzer = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800">
+    <div className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-emerald-50 dark:from-black dark:via-gray-900 dark:to-emerald-950">
       <Navigation />
-      <div className="pt-16">
+      
+      {/* Animated background elements matching landing page */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-200 dark:bg-emerald-800 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-300 dark:bg-emerald-700 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="relative pt-20 pb-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center mr-3">
-                <Sparkles className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mr-4 animate-pulse-glow">
+                <Sparkles className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-4xl font-bold text-white">Ingredient Safety Analyzer</h1>
+              <h1 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white">
+                Ingredient <span className="gradient-text">Analyzer</span>
+              </h1>
             </div>
-            <p className="text-purple-100 text-lg">
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Discover what's really in your products - scan, upload, or type ingredients to get detailed safety insights
             </p>
           </div>
 
           {/* Main Container */}
-          <div className="bg-white dark:bg-gray-100 rounded-3xl p-8 shadow-2xl">
+          <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-gray-200/50 dark:border-gray-800/50">
             {/* Tab Navigation */}
-            <div className="flex flex-col sm:flex-row gap-2 mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 mb-8">
               <Button
                 onClick={() => setSelectedTab('scan')}
-                className={`flex-1 py-4 px-6 rounded-xl font-medium transition-all duration-300 ${
+                className={`flex-1 py-6 px-6 rounded-2xl font-semibold text-base transition-all duration-300 ${
                   selectedTab === 'scan'
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-emerald-600 text-white shadow-lg hover:bg-emerald-700'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
               >
-                <Camera className="w-5 h-5 mr-2" />
-                📷 Scan/Camera
+                <Camera className="w-5 h-5 mr-3" />
+                Scan/Camera
               </Button>
               <Button
                 onClick={() => setSelectedTab('upload')}
-                className={`flex-1 py-4 px-6 rounded-xl font-medium transition-all duration-300 ${
+                className={`flex-1 py-6 px-6 rounded-2xl font-semibold text-base transition-all duration-300 ${
                   selectedTab === 'upload'
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-emerald-600 text-white shadow-lg hover:bg-emerald-700'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
               >
-                <Upload className="w-5 h-5 mr-2" />
-                📁 Upload Image
+                <Upload className="w-5 h-5 mr-3" />
+                Upload Image
               </Button>
               <Button
                 onClick={() => setSelectedTab('type')}
-                className={`flex-1 py-4 px-6 rounded-xl font-medium transition-all duration-300 ${
+                className={`flex-1 py-6 px-6 rounded-2xl font-semibold text-base transition-all duration-300 ${
                   selectedTab === 'type'
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-emerald-600 text-white shadow-lg hover:bg-emerald-700'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
               >
-                <Sparkles className="w-5 h-5 mr-2" />
-                ✏️ Type Ingredients
+                <Sparkles className="w-5 h-5 mr-3" />
+                Type Ingredients
               </Button>
             </div>
 
@@ -86,22 +95,21 @@ const Analyzer = () => {
             <div className="mb-8">
               {/* Scan/Camera Tab */}
               {selectedTab === 'scan' && (
-                <div className="text-center py-12">
-                  <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Camera className="w-12 h-12 text-gray-500" />
+                <div className="text-center py-16">
+                  <div className="w-32 h-32 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900 dark:to-emerald-800 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                    <Camera className="w-16 h-16 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Scan Ingredient Label</h3>
-                  <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                  <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Scan Ingredient Label</h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto text-lg">
                     Use your camera to scan product labels directly
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-medium">
+                    <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300">
                       <Camera className="w-5 h-5 mr-2" />
-                      📷 Open Camera
+                      Open Camera
                     </Button>
-                    <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-medium">
-                      <Image className="w-5 h-5 mr-2" />
-                      🖼️ Choose from Gallery
+                    <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                      Choose from Gallery
                     </Button>
                   </div>
                 </div>
@@ -111,12 +119,14 @@ const Analyzer = () => {
               {selectedTab === 'upload' && (
                 <div className="py-8">
                   {!uploadedImage ? (
-                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-purple-400 transition-colors duration-300">
-                      <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                      <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                    <div className="border-2 border-dashed border-emerald-300 dark:border-emerald-700 rounded-3xl p-16 text-center hover:border-emerald-400 dark:hover:border-emerald-600 transition-colors duration-300 bg-emerald-50/50 dark:bg-emerald-950/50">
+                      <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900 dark:to-emerald-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <Upload className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
                         Drag & Drop or Click to Upload
                       </h3>
-                      <p className="text-gray-500 mb-6">
+                      <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
                         Support for JPG, PNG, and other image formats
                       </p>
                       <input
@@ -127,21 +137,21 @@ const Analyzer = () => {
                         id="image-upload"
                       />
                       <label htmlFor="image-upload">
-                        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-full cursor-pointer">
+                        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full cursor-pointer font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300">
                           Choose File
                         </Button>
                       </label>
                     </div>
                   ) : (
-                    <div className="relative">
+                    <div className="relative max-w-md mx-auto">
                       <img
                         src={uploadedImage}
                         alt="Uploaded ingredient label"
-                        className="w-full max-w-md mx-auto rounded-xl shadow-lg"
+                        className="w-full rounded-2xl shadow-lg"
                       />
                       <Button
                         onClick={removeImage}
-                        className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full"
+                        className="absolute top-3 right-3 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg"
                         size="sm"
                       >
                         <X className="w-4 h-4" />
@@ -153,14 +163,14 @@ const Analyzer = () => {
 
               {/* Type Ingredients Tab */}
               {selectedTab === 'type' && (
-                <div className="py-4">
+                <div className="py-6">
                   <Textarea
                     placeholder="Enter ingredients separated by commas... (e.g., Water, Sodium Lauryl Sulfate, Glycerin, Parabens)"
                     value={ingredients}
                     onChange={(e) => setIngredients(e.target.value)}
-                    className="min-h-[200px] text-lg border-2 border-gray-200 focus:border-purple-400 rounded-xl p-4"
+                    className="min-h-[240px] text-lg border-2 border-gray-200 dark:border-gray-700 focus:border-emerald-400 dark:focus:border-emerald-600 rounded-2xl p-6 bg-white dark:bg-gray-800 resize-none"
                   />
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-6 flex flex-wrap gap-3">
                     {['Water', 'Glycerin', 'Sodium Lauryl Sulfate', 'Parabens', 'Fragrance'].map((ingredient) => (
                       <Button
                         key={ingredient}
@@ -170,7 +180,7 @@ const Analyzer = () => {
                           const newIngredients = ingredients ? `${ingredients}, ${ingredient}` : ingredient;
                           setIngredients(newIngredients);
                         }}
-                        className="border-gray-300 hover:border-purple-400 hover:text-purple-600"
+                        className="border-2 border-gray-300 dark:border-gray-600 hover:border-emerald-400 dark:hover:border-emerald-600 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-full px-4 py-2 font-medium transition-all duration-300"
                       >
                         + {ingredient}
                       </Button>
@@ -183,11 +193,11 @@ const Analyzer = () => {
             {/* Analyze Button */}
             <div className="text-center">
               <Button
-                className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-12 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group"
+                className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-16 py-6 rounded-full text-xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-500 group animate-pulse-glow"
                 disabled={!ingredients.trim() && !uploadedImage && selectedTab !== 'scan'}
               >
-                <Sparkles className="w-6 h-6 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                🔬 Analyze Ingredients
+                <Sparkles className="w-7 h-7 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                Analyze Ingredients
               </Button>
             </div>
           </div>

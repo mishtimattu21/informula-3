@@ -1,13 +1,16 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [feedback, setFeedback] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +27,13 @@ export function Navigation() {
     { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' },
   ];
+
+  const handleFeedbackSubmit = () => {
+    // Here you would typically send feedback to your backend
+    console.log('Feedback submitted:', feedback);
+    setFeedback('');
+    // You could show a toast notification here
+  };
 
   return (
     <nav
@@ -53,6 +63,42 @@ export function Navigation() {
                 {item.name}
               </a>
             ))}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 px-3 py-2 text-sm font-medium transition-colors duration-200"
+                >
+                  Feedback
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center">
+                    <MessageSquare className="w-5 h-5 mr-2" />
+                    Share Your Feedback
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <Textarea
+                    placeholder="Tell us what you think about IngredientIQ. Your feedback helps us improve!"
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    className="min-h-[120px] resize-none"
+                  />
+                  <div className="flex justify-end space-x-2">
+                    <Button
+                      onClick={handleFeedbackSubmit}
+                      disabled={!feedback.trim()}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                    >
+                      Submit Feedback
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Right side actions */}
@@ -102,6 +148,41 @@ export function Navigation() {
                   {item.name}
                 </a>
               ))}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
+                  >
+                    Feedback
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center">
+                      <MessageSquare className="w-5 h-5 mr-2" />
+                      Share Your Feedback
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <Textarea
+                      placeholder="Tell us what you think about IngredientIQ. Your feedback helps us improve!"
+                      value={feedback}
+                      onChange={(e) => setFeedback(e.target.value)}
+                      className="min-h-[120px] resize-none"
+                    />
+                    <div className="flex justify-end space-x-2">
+                      <Button
+                        onClick={handleFeedbackSubmit}
+                        disabled={!feedback.trim()}
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                      >
+                        Submit Feedback
+                      </Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <div className="pt-4 pb-2">
                 <Button
                   size="sm"

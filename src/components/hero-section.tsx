@@ -38,9 +38,9 @@ export function HeroSection() {
         <div className="absolute top-40 left-1/2 w-60 h-60 bg-emerald-400 dark:bg-emerald-600 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Dynamic Quote Display */}
-        <div className="mb-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
+        {/* Dynamic Quote Display - Properly positioned */}
+        <div className="mb-12">
           <div
             className={`transition-all duration-300 transform ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
