@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const educationalQuotes = [
   "Overconsumption of salt can kill you!",
@@ -38,8 +39,8 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Dynamic Quote Display - Fixed positioning */}
-        <div className="mb-8">
+        {/* Dynamic Quote Display - Properly positioned */}
+        <div className="mb-12">
           <div
             className={`transition-all duration-300 transform ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
@@ -84,10 +85,13 @@ export function HeroSection() {
           <Button
             size="lg"
             className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 animate-pulse-glow group"
+            asChild
           >
-            <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-            SIGN IN
-            <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+            <Link to="/auth">
+              <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
+              SIGN IN
+              <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
           </Button>
           <Button
             variant="outline"

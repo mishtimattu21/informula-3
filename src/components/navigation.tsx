@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Search, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,7 +37,9 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold gradient-text">IngredientIQ</h1>
+            <Link to="/">
+              <h1 className="text-2xl font-bold gradient-text">IngredientIQ</h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -65,8 +68,9 @@ export function Navigation() {
             <Button
               size="sm"
               className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 hover:shadow-lg"
+              asChild
             >
-              Sign In
+              <Link to="/auth">Sign In</Link>
             </Button>
           </div>
 
@@ -102,8 +106,9 @@ export function Navigation() {
                 <Button
                   size="sm"
                   className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-medium"
+                  asChild
                 >
-                  Sign In
+                  <Link to="/auth">Sign In</Link>
                 </Button>
               </div>
             </div>
