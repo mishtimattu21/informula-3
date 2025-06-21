@@ -74,58 +74,43 @@ export function FeaturesSection() {
           </p>
         </div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        {/* Elegant Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <div
                 key={feature.title}
-                className={`group relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 p-8 shadow-lg border border-gray-200 dark:border-gray-700 hover-lift transition-all duration-500 cursor-pointer ${
-                  feature.large ? 'md:col-span-2' : ''
+                className={`group relative overflow-hidden rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm p-6 border border-gray-200/50 dark:border-gray-700/50 hover:bg-white dark:hover:bg-gray-800 hover:border-emerald-200 dark:hover:border-emerald-700 transition-all duration-500 cursor-pointer hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1 ${
+                  feature.large ? 'md:col-span-2 lg:row-span-2 p-8' : ''
                 }`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                {/* Gradient Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                {/* Subtle Gradient Background */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
                 
                 {/* Icon */}
-                <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="w-7 h-7 text-white" />
+                <div className={`relative w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 ${feature.large ? 'w-16 h-16 mb-6' : ''}`}>
+                  <Icon className={`text-white ${feature.large ? 'w-8 h-8' : 'w-6 h-6'}`} />
                 </div>
 
                 {/* Content */}
                 <div className="relative">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-emerald-600 group-hover:to-emerald-400 group-hover:bg-clip-text transition-all duration-300">
+                  <h3 className={`font-bold text-gray-900 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300 ${feature.large ? 'text-2xl mb-4' : 'text-lg'}`}>
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                  <p className={`text-gray-600 dark:text-gray-400 leading-relaxed ${feature.large ? 'text-base' : 'text-sm'}`}>
                     {feature.description}
                   </p>
                 </div>
 
                 {/* Hover Glow Effect */}
-                <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                  <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${feature.gradient} blur-xl opacity-20`}></div>
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} blur-xl opacity-10`}></div>
                 </div>
               </div>
             );
           })}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Ready to experience the power?
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Join thousands of users making safer choices every day.
-            </p>
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:scale-105">
-              Try All Features
-            </button>
-          </div>
         </div>
       </div>
     </section>

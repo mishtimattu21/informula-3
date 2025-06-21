@@ -66,7 +66,7 @@ export function Navigation() {
               size="sm"
               className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-full font-medium transition-all duration-300 hover:shadow-lg"
             >
-              Analyze Now
+              Sign In
             </Button>
           </div>
 
@@ -103,7 +103,7 @@ export function Navigation() {
                   size="sm"
                   className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-medium"
                 >
-                  Analyze Now
+                  Sign In
                 </Button>
               </div>
             </div>
